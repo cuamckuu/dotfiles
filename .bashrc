@@ -197,7 +197,7 @@
 #
 # alias cd=cd_func
 stty -ixon
-alias cddes="cd /cygdrive/c/Users/Alex\ Kosh/Desktop/"
+alias cddes="cd `cygpath -D`"
 #alias make="mingw32-make.exe"
 alias is_vim="ps | grep vim"
 alias run_proxy="ssh -D 5555 root@server -N"

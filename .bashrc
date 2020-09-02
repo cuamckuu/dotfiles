@@ -197,6 +197,68 @@
 #
 # alias cd=cd_func
 stty -ixon
-alias cddes="cd /cygdrive/c/Users/Alex/Desktop/"
-alias make="mingw32-make.exe"
+alias cddes="cd /cygdrive/c/Users/Alex\ Kosh/Desktop/"
+#alias make="mingw32-make.exe"
 alias is_vim="ps | grep vim"
+alias run_proxy="ssh -D 5555 root@server -N"
+export EDITOR=vim
+
+alias ls="ls --color=auto"
+alias ll="ls -lahG --color=auto"
+
+upto ()
+{
+    if [ -z "$1" ]; then
+        return
+    fi
+    local upto=$1
+    cd "${PWD/\/$upto\/*//$upto}"
+}
+
+_upto()
+{
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local d=${PWD//\//\ }
+    COMPREPLY=( $( compgen -W "$d" -- "$cur" ) )
+}
+complete -F _upto upto
+
+jd(){
+    if [ -z "$1" ]; then
+        echo "Usage: jd [directory]";
+        return 1
+    else
+        cd **"/$1"
+    fi
+}
+
+alias pm="python -m"
+
+alias gs='git status '
+alias ga='git add '
+alias gb='git branch '
+alias gc='git commit'
+alias gd='git diff'
+alias gco='git checkout '
+
+alias :e='vim'
+
+for x in {a..z}
+do
+    eval "alias q$x='REGISTER=$x source macro'"
+done
+
+
+howin () {
+    curl "cheat.sh/$1"
+}
+
+putstate () {
+    declare +x >~/environment.tmp
+    declare -x >>~/environment.tmp
+    echo cd "$PWD" >>~/environment.tmp
+}
+
+getstate () {
+    . ~/environment.tmp
+}

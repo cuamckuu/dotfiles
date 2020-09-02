@@ -16,12 +16,6 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'honza/vim-snippets'
 " let Vundle manage Vundle, required
 
-Plugin 'rust-lang/rust.vim'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'andreimaxim/vim-io'
-Plugin 'Haron-Prime/evening_vim'
-Plugin 'ap/vim-css-color'
-Plugin 'dracula/vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'vim-scripts/DrawIt'
 
@@ -30,6 +24,9 @@ Plugin 'scrooloose/nerdtree'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+
+let mapleader="\\"
 
 
 "split navigations
@@ -89,6 +86,8 @@ endfunction
 "autocmd BufWritePost,BufLeave,WinLeave ?* mkview
 "autocmd BufWinEnter ?* silent loadview
 
+
+
 " Autocomplete
 " set autoindent
 set encoding=utf-8
@@ -99,9 +98,10 @@ let python_highlight_all=1
 syntax on
 
 " Build for everything
-nmap <F7> :w<cr>:!clear;"%:p"<cr>
+nmap <F7> :w<cr>: !clear; ./"%"<cr>
+nmap <F8> @@
 
-colorscheme dracula
+" colorscheme dracula
 
 " Highlight extra whitespaces
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -245,9 +245,9 @@ noremap <Right> <Nop>
 
 map <c-d> <esc>:sh<cr>
 
-highlight ColorColumn ctermbg=gray
 
 set colorcolumn=80
+highlight ColorColumn ctermbg=gray
 
 for [key, code] in [["<F2>", "\eOQ"],
                    \["<F3>", "\eOR"],
@@ -268,3 +268,76 @@ else
 endif
 
 command -nargs=1 Find :!clear;grep -In <args> * 2>/dev/null
+set mouse=a
+
+set ignorecase
+set smartcase
+
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+
+set ruler
+
+set lazyredraw
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> <leader>n :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> <leader>p :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+nnoremap <silent> # *
+nnoremap <silent> * #
+
+map 0 ^
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", "\\/.*'$^~[]")
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+function! CmdLine(str)
+    call feedkeys(":" . a:str)
+endfunction
+
+
+" Quickly open a buffer for scribble
+map <leader>q :e ~/buffer.md<cr>
+
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+
+nnoremap <leader>~ :e ~/.vimrc<cr>
+
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+
+nmap <Leader>[ gg
+vmap <Leader>[ gg
+nmap <Leader>] G
+vmap <Leader>] G
+
+nnoremap <Leader>a ggVG
+
+xnoremap <leader>p :w !python<cr>
+
+nmap <leader>x :!chmod +x %; fg<cr>
+nnoremap <c-u> <c-o>u
+set shellcmdflag=-ic

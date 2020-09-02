@@ -8,9 +8,8 @@ snippet toascii
 	${0:str}.encode("ascii", "ignore").decode("ascii")
 
 snippet #!
-	#!/usr/bin/env wpython
+	#!/usr/bin/env python
 	# -*- coding: utf-8 -*-
-
 snippet #!2
 	#!/usr/bin/env python2
 	# -*- coding: utf-8 -*-
@@ -21,6 +20,8 @@ snippet imp
 snippet uni
 	def __unicode__(self):
 		${0:representation}
+snippet pathout
+	__import__("sys").path.append("./../")
 snippet from
 	from ${1:package} import ${0:module}
 # Module Docstring
@@ -163,9 +164,16 @@ snippet tryef Try/Except/Else/Finally
 	finally:
 		${0}
 # if __name__ == '__main__':
+snippet difmain
+	def main():
+		${0:pass}
+
+
+	if __name__ == '__main__':
+		main()
 snippet ifmain
 	if __name__ == '__main__':
-		${0:main()}
+		${0:pass}
 # __magic__
 snippet _
 	__${1:init}__
@@ -193,6 +201,10 @@ snippet ptpython
 # python console debugger (pudb)
 snippet pudb
 	__import__('pudb').set_trace()
+# python console debugger remote (pudb)
+snippet pudbr
+	from pudb.remote import set_trace
+	set_trace()
 # pdb in nosetests
 snippet nosetrace
 	__import__('nose').tools.set_trace()
@@ -204,6 +216,7 @@ snippet "
 # assertions
 snippet a=
 	self.assertEqual(${0}, ${1})
+
 # test function/method
 snippet test
 	def test_${1:description}(${2:`indent('.') ? 'self' : ''`}):

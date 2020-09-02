@@ -1,0 +1,19 @@
+[user]
+	email = sasha23969@gmail.com
+	name = Alex Kosh
+
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch
+  hist = log --pretty=format:\"%h %ad | %s%d \" --graph --date=short
+  wip ="!git add . && git commit -m 'chore: Work In Progress'"
+  rewip ="!git reset --soft HEAD^; git reset HEAD ."
+  st='status'
+  amend="!git commit --amend"
+  undo="!git reset --soft HEAD^"
+  diff="!git diff --word-diff"
+
+[help]
+	autocorrect = 1

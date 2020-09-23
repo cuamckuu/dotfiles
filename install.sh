@@ -28,4 +28,12 @@ then
     ln -sf $DIR/.tmux.conf ~/.tmux.conf
 fi
 
+read -p "Replace python.snippets? " -n 1 -r; echo
+if [[ $REPLY =~ ^[Yy]$ ]];
+then
+    ln -sf $DIR/.vim/bundle/vim-snippets/snippets/python.snippets ~/.vim/bundle/vim-snippets/snippets/python.snippets
+fi
+
+
+
 echo "Installation complete! Relogin please"

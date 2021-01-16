@@ -89,7 +89,7 @@ endfunction
 
 
 " Autocomplete
-" set autoindent
+set autoindent
 set encoding=utf-8
 
 set hidden
@@ -186,14 +186,7 @@ nmap k gk
 
 " Close buffer, but keep window open
 command! BD :bn|:bd#
-if has("gui_running")
-    nmap <a-w> :BD<cr>
-    imap <a-w>  <esc>:BD<cr>
-else
-    nmap w :BD<cr>
-    imap w <esc>:BD<cr>
-
-endif
+map <leader>w  <esc>:BD<cr>
 
 " Set current dir for buffer
 set autochdir
@@ -336,8 +329,12 @@ vmap <Leader>] G
 
 nnoremap <Leader>a ggVG
 
-xnoremap <leader>p :w !python<cr>
+nnoremap <leader>e :.w !bash<cr>
+xnoremap <leader>e :w !bash<cr>
 
 nmap <leader>x :!chmod +x %; fg<cr>
 nnoremap <c-u> <c-o>u
 set shellcmdflag=-ic
+
+autocmd Filetype vue setlocal expandtab softtabstop=2 tabstop=2 shiftwidth=2
+autocmd Filetype html setlocal expandtab softtabstop=2 tabstop=2 shiftwidth=2
